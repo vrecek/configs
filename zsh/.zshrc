@@ -6,11 +6,14 @@ export ZSH="$HOME/.oh-my-zsh"
 # DISABLE_MAGIC_FUNCTIONS="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
 DISABLE_AUTO_TITLE="false"
-ZSH_CUSTOM="$ZSH/custom"
 ENABLE_CORRECTION="true"
 CASE_SENSITIVE="false"
 DISABLE_LS_COLORS="true"
+
+ZSH_CUSTOM="$ZSH/custom"
+
 HIST_STAMPS="yyyy-mm-dd"
 
 plugins=(zsh-autosuggestions)
@@ -28,13 +31,18 @@ NL=$'\n'
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=2000
 SAVEHIST=$HISTSIZE
+
 PROMPT='┌─[%B%F{#ff8000}%T%f%b]%B%F{#33ff33}%n💀%m%f%b[%B%F{#3399ff}%~%f%b]${NL}└─➤ '
 #======================#
 
 #===== MY ALIASES =====#
 alias neofetch='neofetch --config ~/.config/neofetch/config.default'
+alias neofetch-def='neofetch --config ~/.config/neofetch/config.conf'
+
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+
+alias open='xdg-open'
 #======================#
 
 #===== MY EXPORTS =====#
