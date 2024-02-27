@@ -53,4 +53,5 @@ export LANG="en_US.UTF-8"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+source ~/.zshfn
 source $ZSH/oh-my-zsh.sh

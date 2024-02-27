@@ -1,0 +1,28 @@
+# cd back x times
+gb() {
+        if [ ! -z $2 ] || [[ ! $1 =~ ^([1-9]|)$ ]]; then
+                echo "USAGE: gb <int>"
+                return
+        fi
+         
+        local COMMAND=""
+        local NUM=$1 && [ -z $1 ] && local NUM=1
+         
+        for i in {1..$NUM}; do
+                COMMAND="$COMMAND../"
+        done;
+  
+	cd $COMMAND
+}
+
+# switch file name
+rep() {
+	if [[ -z $1 || ! -f $1 ]] || [[ -z $2 || ! -f $2 ]]; then 
+		echo "USAGE: rep <file1> <file2>"
+		return
+	fi
+
+	mv $1 temp &&
+	mv $2 $1 &&
+	mv temp $2
+}
