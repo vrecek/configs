@@ -26,13 +26,11 @@ unsetopt autocd
 #=============================#
 
 #====== MY VARS =======#
-NL=$'\n'
-
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=2000
+HISTSIZE=4000
 SAVEHIST=$HISTSIZE
 
-PROMPT='┌─[%B%F{#ff8000}%T%f%b]%B%F{#33ff33}%n💀%m%f%b[%B%F{#3399ff}%~%f%b]${NL}└─➤ '
+PS1=$'┌─[%B%F{#ff8000}%T%f%b]%B%F{#33ff33}%n💀%m%f%b[%B%F{#3399ff}%~%f%b]\n└─➤ '
 #======================#
 
 #===== MY ALIASES =====#
@@ -42,7 +40,10 @@ alias neofetch-def='neofetch --config ~/.config/neofetch/config.conf'
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 
-alias open='xdg-open'
+alias open='xdg-open 2>/dev/null'
+alias xdg-mime='XDG_UTILS_DEBUG_LEVEL=2 xdg-mime'
+alias sctl='sudo systemctl'
+alias da='sudo'
 #======================#
 
 #===== MY EXPORTS =====#
@@ -53,5 +54,8 @@ export LANG="en_US.UTF-8"
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
+#====== MY FUNCS ======#
 source ~/.zshfn
+#======================#
+
 source $ZSH/oh-my-zsh.sh
