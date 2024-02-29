@@ -10,7 +10,7 @@ gb() {
          
         for i in {1..$NUM}; do
                 COMMAND="$COMMAND../"
-        done;
+	done
   
 	cd $COMMAND
 }
@@ -25,4 +25,27 @@ rep() {
 	mv $1 temp &&
 	mv $2 $1 &&
 	mv temp $2
+}
+
+# resources usage
+usage() {
+	CLR_RESET='\033[0m'
+	CLR_TEXT='\033[38;2;255;187;0m'
+	NET_INT='wlp2s0'
+
+	NET=$(cat /sys/class/net/$NET_INT/statistics/rx_bytes | numfmt --to=iec)
+	
+	MEM=$(head -n 3 /proc/meminfo | awk '/^MemAvailable:/ {print $2"K"}' | numfmt --from=iec --to=iec)
+	MEM_US="$(ps axch -o cmd,%mem --sort=-%mem | head -n 1 | awk '{print $1" - "$NF"%"}')"
+	
+	CPU="$((`cat /sys/class/thermal/thermal_zone0/temp` / 1000))°C"
+	CPU_US="$(ps axch -o cmd,%cpu --sort=-%cpu | head -n 2 | sed /ps/d | sed -n 1p | awk '{print $1" - "$NF"%"}')"
+
+	echo -e "Memory available: $CLR_TEXT$MEM$CLR_RESET"
+	echo -e "Memory highest usage: $CLR_TEXT$MEM_US$CLR_RESET\n"
+
+	echo -e "CPU temperature: $CLR_TEXT$CPU$CLR_RESET"
+	echo -e "CPU highest usage: $CLR_TEXT$CPU_US$CLR_RESET\n"
+
+	echo -e "Network usage since boot: $CLR_TEXT$NET$CLR_RESET"
 }
