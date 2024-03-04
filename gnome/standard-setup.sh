@@ -22,10 +22,6 @@ xdg-mime default org.gnome.gedit.desktop application/x-zerosize
 
 xdg-mime default org.gnome.Evince.desktop application/pdf
 
-echo "===INSTALLING VIM-PLUG==="
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim -c 'PlugInstall'
-
 echo "===INSTALLING OH-MY-ZSH==="
 sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
@@ -34,6 +30,7 @@ echo "===MOVING CONFIG FILES==="
 [ ! -d ~/Pictures/ascii ] && mkdir ~/Pictures/ascii
 [ ! -d ~/Pictures/wallpapers ] && mkdir ~/Pictures/wallpapers
 [ ! -d ~/.config/neofetch ] && mkdir ~/.config/neofetch
+[ ! -d ~/.config/kitty ] && mkdir ~/.config/kitty
 
 cp ~/configs/vim/.vimrc ~/
 cp ~/configs/zsh/.* ~/
@@ -46,6 +43,10 @@ cp ~/configs/kitty/window_logo_path.png ~/Pictures/tux.png
 cp ~/configs/kitty/background_image.png ~/Pictures/wallpapers/parrot_right.png
 
 sudo cp ~/configs/sysctl/99-settings.conf /etc/sysctl.d/
+
+echo "===INSTALLING VIM-PLUG==="
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim -c 'PlugInstall'
 
 echo "===SETTING THEMES==="
 [ ! -d ~/.icons ] && mkdir ~/.icons
@@ -74,6 +75,7 @@ gsettings set org.gnome.desktop.interface font-name 'Cascadia Code 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Cascadia Mono 11'
 
 CUSTOM0="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$CUSTOM0']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CUSTOM0 name 'terminal'
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CUSTOM0 command 'kitty'
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CUSTOM0 binding '<Ctrl><Alt>t'
