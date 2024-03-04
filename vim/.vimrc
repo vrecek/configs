@@ -9,6 +9,7 @@ call plug#end()
 set number
 set showcmd
 set encoding=utf-8
+set title
 
 map <silent> <C-t> :NERDTreeToggle<CR>
 map <C-q> :q!<CR>

@@ -50,6 +50,7 @@ alias da='sudo'
 export NVM_DIR="$HOME/.nvm"
 export EDITOR='vim'
 export LANG="en_US.UTF-8"
+export STEAMAPPS="$HOME/.steam/steam/steamapps/common"
 #======================#
 
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

@@ -29,17 +29,17 @@ rep() {
 
 # resources usage
 usage() {
-	CLR_RESET='\033[0m'
-	CLR_TEXT='\033[38;2;255;187;0m'
-	NET_INT='wlp2s0'
+	local CLR_RESET='\033[0m'
+	local CLR_TEXT='\033[38;2;255;187;0m'
+	local NET_INT='wlp2s0'
 
-	NET=$(cat /sys/class/net/$NET_INT/statistics/rx_bytes | numfmt --to=iec)
+	local NET=$(cat /sys/class/net/$NET_INT/statistics/rx_bytes | numfmt --to=iec)
 	
-	MEM=$(head -n 3 /proc/meminfo | awk '/^MemAvailable:/ {print $2"K"}' | numfmt --from=iec --to=iec)
-	MEM_US="$(ps axch -o cmd,%mem --sort=-%mem | head -n 1 | awk '{print $1" - "$NF"%"}')"
+	local MEM=$(head -n 3 /proc/meminfo | awk '/^MemAvailable:/ {print $2"K"}' | numfmt --from=iec --to=iec)
+	local MEM_US="$(ps axch -o cmd,%mem --sort=-%mem | head -n 1 | awk '{print $1" - "$NF"%"}')"
 	
-	CPU="$((`cat /sys/class/thermal/thermal_zone0/temp` / 1000))°C"
-	CPU_US="$(ps axch -o cmd,%cpu --sort=-%cpu | head -n 2 | sed /ps/d | sed -n 1p | awk '{print $1" - "$NF"%"}')"
+	local CPU="$((`cat /sys/class/thermal/thermal_zone0/temp` / 1000))°C"
+	local CPU_US="$(ps axch -o cmd,%cpu --sort=-%cpu | head -n 2 | sed /ps/d | sed -n 1p | awk '{print $1" - "$NF"%"}')"
 
 	echo -e "Memory available: $CLR_TEXT$MEM$CLR_RESET"
 	echo -e "Memory highest usage: $CLR_TEXT$MEM_US$CLR_RESET\n"
@@ -48,4 +48,14 @@ usage() {
 	echo -e "CPU highest usage: $CLR_TEXT$CPU_US$CLR_RESET\n"
 
 	echo -e "Network usage since boot: $CLR_TEXT$NET$CLR_RESET"
+}
+
+# count files in a directory
+count() {
+	if [ ! -d $1 ]; then	
+		echo "No directory specified"
+		return
+	fi
+
+	find $1 -type f | wc -l
 }
