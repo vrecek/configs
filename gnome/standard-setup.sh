@@ -53,11 +53,12 @@ echo "===SETTING THEMES==="
 [ ! -d ~/.fonts ] && mkdir ~/.fonts
 [ ! -d ~/.themes ] && mkdir ~/.themes
 
-cp -r ~/configs/gnome/themes/colloid-cursor ~/.icons
-cp -r ~/configs/gnome/themes/reversal-icons ~/.icons
-cp -r ~/configs/gnome/themes/Adwaita-dark ~/.themes
-cp ~/configs/gnome/themes/Cascadia* ~/.fonts
-cp ~/configs/gnome/themes/Symbols* ~/.fonts
+tar xf ~/configs/gnome/themes/themes/Adwaita-dark.tar.gz -C ~/.themes
+tar xf ~/configs/gnome/themes/icons/colloid-cursor.tar.gz -C ~/.icons
+tar xf ~/configs/gnome/themes/icons/reversal-icons.tar.gz -C ~/.icons
+
+cp ~/configs/gnome/themes/fonts/Cascadia* ~/.fonts
+cp ~/configs/gnome/themes/fonts/Symbols* ~/.fonts
 cp ~/configs/gnome/themes/arch_logo.jpeg ~/Pictures/wallpapers
 
 gsettings set org.gnome.desktop.interface clock-show-seconds true
