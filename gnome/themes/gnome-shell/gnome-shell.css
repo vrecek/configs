@@ -1,0 +1,49 @@
+/* Root */
+stage {
+	
+}
+
+/* Running application dot */
+.app-well-app-running-dot {
+	background-color: #fa9a12;
+	border-radius: 0;
+	width: 10px;
+	height: 3px;
+}
+
+/* Focused running application dot */
+StWidget.focused .app-well-app-running-dot {
+	width: 20px;
+}
+
+/* App icon */
+.app-well-app .overview-icon {
+	border-radius: 10px;
+}
+
+/* Top right menu buttons */
+.button {
+	background: #1e93d1;
+	border-radius: 0;
+	padding: .4em 1.25em;
+}
+.button:hover {
+	background: #277bb8;
+}
+
+/* Top right menu button arrow */
+.quick-menu-toggle .quick-toggle-arrow {
+	background: #1e93d1;
+	border-radius: 0 .25em .25em 0;
+}
+
+/* Toggled button */
+.quick-toggle:checked {
+	background: #1c6ca6;	
+}
+
+/* Top right menu sliders */
+.slider {
+	-barlevel-background-color: #825317;
+	-barlevel-active-background-color: #fa9a12;
+}

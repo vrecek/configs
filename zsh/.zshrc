@@ -10,7 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 DISABLE_AUTO_TITLE="false"
 ENABLE_CORRECTION="true"
 CASE_SENSITIVE="false"
-DISABLE_LS_COLORS="true"
+DISABLE_LS_COLORS="false"
 
 ZSH_CUSTOM="$ZSH/custom"
 
@@ -26,7 +26,7 @@ unsetopt autocd
 #=============================#
 
 #====== MY VARS =======#
-HISTFILE="$HOME/.zsh_history"
+HISTFILE="$HOME/.cache/zsh/.zsh_history"
 HISTSIZE=4000
 SAVEHIST=$HISTSIZE
 
@@ -56,7 +56,7 @@ export STEAMAPPS="$HOME/.steam/steam/steamapps/common"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 #====== MY FUNCS ======#
-source ~/.zshfn
+source ~/.cache/zsh/.zshfn
 #======================#
 
 source $ZSH/oh-my-zsh.sh
