@@ -14,6 +14,9 @@ set title
 map <silent> <C-t> :NERDTreeToggle<CR>
 map <C-q> :q!<CR>
 map <C-w> :wq<CR>
+map <C-Up> :tabedit<CR>
+map <C-Left> :tabp<CR>
+map <C-Right> :tabn<CR>
 
 autocmd VimEnter * NERDTree
 

@@ -1,24 +1,44 @@
-echo "===DOWNLOADING PACKAGES==="
-# SYSTEM
-sudo pacman -S linux-lts linux-lts-headers gdm gnome-shell
-# GUI APPS
-sudo pacman -S kitty keepassxc qbittorrent 
-# FILE SYSTEMS
-sudo pacman -S ntfs-3g exfat-utils dosfstools
-# FONTS
-sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji
-# APP OPENERS
-sudo pacman -S vlc nemo evince sxiv libreoffice-still gnome-font-viewer gedit
-# SOUND
-sudo pacman -S pipewire pipewire-alsa pipewire-pulse wireplumber pulsemixer
-# QEMU
-sudo pacman -S virt-manager qemu-full vde2 bridge-utils openbsd-netcat virt-viewer
-# GAMES
-sudo pacman -S steam
-# COMPRESSION
-sudo pacman -S p7zip zip
+echo "===SETTING PACMAN==="
+sudo sed -i 's/#Color/Color/' /etc/pacman.conf
+sudo sed -i 's/#ParallelDownloads\ =\ 5/ParallelDownloads\ =\ 3/' /etc/pacman.conf
+sudo sed -i '/Misc/a ILoveCandy' /etc/pacman.conf
+sudo sed -i '/#\[multilib\]/{s/#//;n;s/#//}' /etc/pacman.conf
 
-sudo pacman -S gnome-control-center gnome-tweaks gnome-shell-extensions gnome-browser-connector gnome-keyring git xdg-user-dirs lshw inkscape jdk-openjdk dnsmasq imagemagick python-pip wget neofetch lsof curl zsh man iw plocate ufw tk zsh-completions docker docker-buildx dmidecode bluez bluez-utils blueman 
+sudo pacman -Syu
+
+echo "===DOWNLOADING PACKAGES==="
+A_PACK=(
+	# SYSTEM
+	linux-lts linux-lts-headers gdm gnome-shell
+	# GUI APPS
+	kitty keepassxc qbittorrent
+	# FILESYSTEMS
+	ntfs-3g exfat-utils dosfstools
+	# SOUND
+	pipewire pipewire-alsa pipewire-pulse wireplumber pulsemixer
+	# FONTS
+	noto-fonts noto-fonts-cjk noto-fonts-emoji
+	# APP OPENERS
+	vlc nemo evince sxiv libreoffice-still gnome-font-viewer gedit
+	# QEMU
+	virt-manager qemu-full vde2 bridge-utils openbsd-netcat virt-viewer
+	# COMPRESSION
+	p7zip zip
+	# GAMES
+	steam
+	# BLUETOOTH
+	bluez bluez-utils blueman
+	# DOCKER
+	docker docker-buildx
+	# GNOME UTILS
+	gnome-control-center gnome-tweaks gnome-shell-extensions gnome-browser-connector gnome-keyring
+	# CLI UTILS
+	lshw wget curl neofetch lsof man iw plocate dmidecode inkscape imagemagick python-pip
+	# OTHER
+	xdg-user-dirs jdk-openjdk dnsmasq zsh ufw tk zsh-completions 
+)
+
+sudo pacman -S ${A_PACK[@]}
 
 xdg-user-dirs-update
 
@@ -47,13 +67,11 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/p
 echo "===MOVING CONFIG FILES==="
 mkdir ~/Pictures/ascii
 mkdir ~/Pictures/wallpapers
-mkdir ~/.cache/zsh
 [ ! -d ~/.config/neofetch ] && mkdir ~/.config/neofetch
 [ ! -d ~/.config/kitty ] && mkdir ~/.config/kitty
 
 cp ~/configs/vim/.vimrc ~/
-cp ~/configs/zsh/.zshfn ~/.cache/zsh
-cp ~/configs/zsh/.zshrc ~/
+cp ~/configs/zsh/.* ~/
 
 cp ~/configs/neofetch/config.default ~/.config/neofetch
 cp ~/configs/neofetch/neofetch_ascii.txt ~/Pictures/ascii/
@@ -71,17 +89,15 @@ vim -c 'PlugInstall'
 echo "===SETTING THEMES==="
 [ ! -d ~/.icons ] && mkdir ~/.icons
 [ ! -d ~/.fonts ] && mkdir ~/.fonts
-[ ! -d ~/.themes ] && mkdir ~/.themes
+[ ! -d ~/.themes ] && mkdir -p ~/.themes/CustomShell
 
 tar xf ~/configs/gnome/themes/themes/Adwaita-dark.tar.gz -C ~/.themes
 tar xf ~/configs/gnome/themes/icons/colloid-cursor.tar.gz -C ~/.icons
 tar xf ~/configs/gnome/themes/icons/reversal-icons.tar.gz -C ~/.icons
 
-cp ~/configs/gnome/themes/fonts/Cascadia* ~/.fonts
-cp ~/configs/gnome/themes/fonts/Symbols* ~/.fonts
+cp ~/configs/gnome/themes/fonts/* ~/.fonts
 cp ~/configs/gnome/themes/arch_logo.jpeg ~/Pictures/wallpapers
 
-mkdir ~/.themes/CustomShell
 cp -r ~/configs/gnome/themes/gnome-shell ~/.themes/CustomShell
 
 gsettings set org.gnome.desktop.interface clock-show-seconds true
@@ -93,8 +109,8 @@ gsettings set org.gnome.desktop.wm.preferences button-layout "appmenu:minimize,m
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
-gsettings set org.gnome.desktop.interface cursor-theme 'Colloid-cursor'
-gsettings set org.gnome.desktop.interface icon-theme 'Reversal-icons'
+gsettings set org.gnome.desktop.interface cursor-theme 'colloid-cursor'
+gsettings set org.gnome.desktop.interface icon-theme 'reversal-icons'
 gsettings set org.gnome.desktop.interface font-name 'Cascadia Code 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Cascadia Mono 11'
 
@@ -117,6 +133,7 @@ gsettings set org.gnome.desktop.background picture-uri-dark file:///home/vrecek/
 echo "===ENABLING DAEMONS==="
 sudo systemctl enable gdm
 sudo systemctl enable ufw
+sudo systemctl enable libvirtd
 
 sudo ufw enable
 

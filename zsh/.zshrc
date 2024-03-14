@@ -26,7 +26,7 @@ unsetopt autocd
 #=============================#
 
 #====== MY VARS =======#
-HISTFILE="$HOME/.cache/zsh/.zsh_history"
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=4000
 SAVEHIST=$HISTSIZE
 
@@ -44,6 +44,11 @@ alias open='xdg-open 2>/dev/null'
 alias xdg-mime='XDG_UTILS_DEBUG_LEVEL=2 xdg-mime'
 alias sctl='sudo systemctl'
 alias da='sudo'
+alias zrc='vim ~/.zshrc'
+
+alias mixer='pulsemixer'
+alias weather='curl wttr.in'
+alias myip='curl ipinfo.io/ip'
 #======================#
 
 #===== MY EXPORTS =====#
@@ -56,7 +61,7 @@ export STEAMAPPS="$HOME/.steam/steam/steamapps/common"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 #====== MY FUNCS ======#
-source ~/.cache/zsh/.zshfn
+source ~/.zshfn
 #======================#
 
 source $ZSH/oh-my-zsh.sh
