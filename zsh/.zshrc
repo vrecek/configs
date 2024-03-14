@@ -58,6 +58,10 @@ export LANG="en_US.UTF-8"
 export STEAMAPPS="$HOME/.steam/steam/steamapps/common"
 #======================#
 
+#====== MY BINDS ======#
+bindkey \^U backward-kill-line
+#======================#
+
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
 #====== MY FUNCS ======#
