@@ -19,23 +19,25 @@ A_PACK=(
 	# FONTS
 	noto-fonts noto-fonts-cjk noto-fonts-emoji
 	# APP OPENERS
-	vlc nemo evince sxiv libreoffice-still gnome-font-viewer gedit
+	vlc nemo evince nsxiv libreoffice-still gnome-font-viewer gedit
 	# QEMU
 	virt-manager qemu-full vde2 bridge-utils openbsd-netcat virt-viewer
 	# COMPRESSION
 	p7zip zip
 	# GAMES
-	steam
+	steam discord
 	# BLUETOOTH
 	bluez bluez-utils blueman
 	# DOCKER
 	docker docker-buildx
 	# GNOME UTILS
-	gnome-control-center gnome-tweaks gnome-shell-extensions gnome-browser-connector gnome-keyring
+	gnome-control-center gnome-tweaks gnome-shell-extensions gnome-browser-connector gnome-keyring gnome-themes-extra
 	# CLI UTILS
-	lshw wget curl neofetch lsof man iw plocate dmidecode inkscape imagemagick python-pip
+	wget curl neofetch man plocate inkscape imagemagick python-pip lftp
+	# DIAGNOSTIC
+	lshw lsof dmidecode nmap iw
 	# OTHER
-	xdg-user-dirs jdk-openjdk dnsmasq zsh ufw tk zsh-completions 
+	xdg-user-dirs xdg-desktop-portal jdk-openjdk dnsmasq zsh ufw tk zsh-completions apache syslog-ng logrotate cronie mesa-utils mesa-demos
 )
 
 sudo pacman -S ${A_PACK[@]}
@@ -65,8 +67,7 @@ sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/ins
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 
 echo "===MOVING CONFIG FILES==="
-mkdir ~/Pictures/ascii
-mkdir ~/Pictures/wallpapers
+mkdir ~/Pictures/ascii ~/Pictures/logos ~/Pictures/wallpapers
 [ ! -d ~/.config/neofetch ] && mkdir ~/.config/neofetch
 [ ! -d ~/.config/kitty ] && mkdir ~/.config/kitty
 
@@ -75,9 +76,10 @@ cp ~/configs/zsh/.* ~/
 
 cp ~/configs/neofetch/config.default ~/.config/neofetch
 cp ~/configs/neofetch/neofetch_ascii.txt ~/Pictures/ascii/
+cp ~/configs/neofetch/neofetch_png.png ~/Pictures/logos/
 
 cp ~/configs/kitty/kitty.conf ~/.config/kitty/
-cp ~/configs/kitty/window_logo_path.png ~/Pictures/tux.png
+cp ~/configs/kitty/window_logo_path.png ~/Pictures/logos/tux.png
 cp ~/configs/kitty/background_image.png ~/Pictures/wallpapers/parrot_right.png
 
 sudo cp ~/configs/sysctl/99-settings.conf /etc/sysctl.d/
@@ -89,9 +91,8 @@ vim -c 'PlugInstall'
 echo "===SETTING THEMES==="
 [ ! -d ~/.icons ] && mkdir ~/.icons
 [ ! -d ~/.fonts ] && mkdir ~/.fonts
-[ ! -d ~/.themes ] && mkdir -p ~/.themes/CustomShell
+mkdir -p ~/.themes/CustomShell
 
-tar xf ~/configs/gnome/themes/themes/Adwaita-dark.tar.gz -C ~/.themes
 tar xf ~/configs/gnome/themes/icons/colloid-cursor.tar.gz -C ~/.icons
 tar xf ~/configs/gnome/themes/icons/reversal-icons.tar.gz -C ~/.icons
 
@@ -123,19 +124,33 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CU
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CUSTOM0 command 'kitty'
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CUSTOM0 binding '<Ctrl><Alt>t'
 
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+
 gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Ctrl><Alt>d']"
 gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>tab']"
+gsettings set org.gnome.desktop.wm.keybindings close "['<Control>BackSpace']"
 
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'pl')]"
 
-gsettings set org.gnome.desktop.background picture-uri-dark file:///home/vrecek/Pictures/wallpapers/arch_logo.jpeg
+gsettings set org.gnome.desktop.background picture-uri-dark file://$HOME/Pictures/wallpapers/arch_logo.jpeg
 
 echo "===ENABLING DAEMONS==="
 sudo systemctl enable gdm
 sudo systemctl enable ufw
 sudo systemctl enable libvirtd
+sudo systemctl enable syslog-ng@default.service
+sudo systemctl disable httpd
 
+echo "===SETTING FIREWALL==="
 sudo ufw enable
+sudo ufw deny 20
+sudo ufw deny 21
+sudo ufw deny 22
+sudo ufw deny 80
+sudo ufw default deny incoming
+
+sudo usermod -aG libvirt $USER
 
 echo "===SETTING ZSH SHELL==="
 chsh -s $(which zsh)

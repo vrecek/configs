@@ -20,3 +20,7 @@ steam     -> video driver<br>
 oh-my-zsh -> n<br>
 oh-my-zsh -> ^D<br>
 vim       -> :q :q<br>
+
+#### Recomended after GNOME setup:
+- extensions: AATWS, AppIndicator, Blur my Shell, Dash to Dock, Desktop Icons NG (DING), Open Bar<br>
+- customize SSH port (sshd_config)<br>
