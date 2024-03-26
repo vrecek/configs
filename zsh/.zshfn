@@ -31,11 +31,11 @@ rep() {
 usage() {
 	local CLR_RESET='\033[0m'
 	local CLR_TEXT='\033[38;2;255;187;0m'
-	local NET_INT='wlp2s0'
 
+	local NET_INT=$(ip a | grep 'state UP' | awk '{print $2}' | tr -d ':')
 	local NET=$(cat /sys/class/net/$NET_INT/statistics/rx_bytes | numfmt --to=iec)
 	
-	local MEM=$(head -n 3 /proc/meminfo | awk '/^MemAvailable:/ {print $2"K"}' | numfmt --from=iec --to=iec)
+	local MEM=$(awk '/^MemAvailable:/ {print $2"K"}' /proc/meminfo | numfmt --from=iec --to=iec)
 	local MEM_US="$(ps axch -o cmd,%mem --sort=-%mem | head -n 1 | awk '{print $1" - "$NF"%"}')"
 	
 	local CPU="$((`cat /sys/class/thermal/thermal_zone0/temp` / 1000))°C"
@@ -59,3 +59,9 @@ count() {
 
 	find $1 -type f | wc -l
 }
+
+# cd + ls
+cdp() {
+	cd $1 && ls		
+}
+
