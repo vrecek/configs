@@ -1,0 +1,10 @@
+dsznajder.es7-react-js-snippets
+formulahendry.auto-rename-tag
+glenn2223.live-sass
+ms-python.debugpy
+ms-python.python
+pkief.material-icon-theme
+ritwickdey.liveserver
+xabikos.javascriptsnippets
+zaaack.markdown-editor
+zhuangtongfa.material-theme

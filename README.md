@@ -17,14 +17,16 @@ man       -> 1 (man-db)<br>
 jack      -> 2 (pipewire-jack)<br>
 pacman    -> y<br>
 steam     -> video driver<br>
+yay       -> password/y
+yay       -> cleanbuild
+yay       -> pgp keys
 oh-my-zsh -> n<br>
 oh-my-zsh -> ^D<br>
 vim       -> :q :q<br>
 ssh       -> keygen
 
 #### Recomended after GNOME setup:
-- extensions: AATWS, AppIndicator and KStatusNotifierItem Support, Blur my Shell, Dash to Dock, Desktop Icons NG (DING), Open Bar<br>
+- extensions: AATWS, AppIndicator and KStatusNotifierItem Support, Blur my Shell, Desktop Icons NG (DING), Open Bar<br>
 - customize SSH port<br>
-- customize enabled/disabled services. Check "ENABLING SERVICES" in `standard_setup.sh`<br>
 - customize autostart (/etc/xdg/autostart)<br>
-- change power saving settings (power-settings-daemon)
+- change power saving settings (power-settings-daemon)<br>

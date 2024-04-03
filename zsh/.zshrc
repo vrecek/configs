@@ -47,10 +47,13 @@ alias fw='sudo ufw'
 alias fwlist='fw status numbered'
 
 alias ports='sudo lsof -Pni'
+alias top='top -o RES -d 1 -e m'
 alias mixer='pulsemixer'
 alias weather='curl wttr.in'
 alias myip='curl ipinfo.io/ip'
 alias wl-copy='wl-copy --paste-once --trim-newline'
+alias gget='gsettings get'
+alias gset='gsettings set'
 #======================#
 
 #===== MY EXPORTS =====#
@@ -60,7 +63,6 @@ export LANG="en_US.UTF-8"
 export STEAMAPPS="$HOME/.steam/steam/steamapps/common"
 export PYTHONPATH="$HOME/.local/lib/python3.11/site-packages"
 export ZSH_COMPDUMP="$ZSH/cache/.zcompdump-$HOST"
-export GTK_THEME='Adwaita-dark'
 #======================#
 
 #====== MY BINDS ======#

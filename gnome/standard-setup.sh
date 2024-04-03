@@ -20,7 +20,7 @@ A_PACK=(
 	# FONTS
 	noto-fonts noto-fonts-cjk noto-fonts-emoji
 	# APP OPENERS
-	vlc nautilus nemo evince nsxiv libreoffice-still gnome-font-viewer gedit
+	vlc nautilus evince nsxiv libreoffice-still gnome-font-viewer gedit
 	# QEMU
 	virt-manager qemu-full vde2 bridge-utils openbsd-netcat virt-viewer
 	# COMPRESSION
@@ -33,14 +33,16 @@ A_PACK=(
 	docker docker-buildx
 	# GNOME UTILS
 	gnome-control-center gnome-tweaks gnome-shell-extensions gnome-browser-connector gnome-keyring gnome-themes-extra
+	# XDG UTILS
+	xdg-desktop-portal-gnome xdg-user-dirs
 	# CLI UTILS
-	wget curl neofetch man plocate inkscape imagemagick python-pip lftp wl-clipboard
+	wget curl neofetch man plocate inkscape imagemagick python-pip lftp wl-clipboard openssh
 	# DIAGNOSTIC
 	lshw lsof dmidecode nmap iw smartmontools
 	# ZSH
 	zsh zsh-completions
 	# OTHER
-	xdg-user-dirs xdg-desktop-portal jdk-openjdk dnsmasq ufw tk apache syslog-ng logrotate cronie mesa-utils mesa-demos pacman-contrib ttf-liberation openvpn power-profiles-daemon git
+	jdk-openjdk dnsmasq ufw tk apache syslog-ng logrotate cronie mesa-utils mesa-demos pacman-contrib openvpn power-profiles-daemon git sassc
 )
 
 sudo pacman -S ${A_PACK[@]}
@@ -48,16 +50,41 @@ sudo pacman -S ${A_PACK[@]}
 xdg-user-dirs-update
 
 
+echo "===ENABLING SERVICES==="
+sudo systemctl enable gdm
+sudo systemctl enable ufw
+sudo systemctl enable dnsmasq
+sudo systemctl enable syslog-ng@default.service
+sudo systemctl enable libvirtd
+sudo systemctl enable virtlogd
+
+sudo systemctl disable cronie
+sudo systemctl disable httpd
+sudo systemctl disable sshd
+sudo systemctl disable systemd-resolved
+
+
+echo "===SETTING FIREWALL==="
+sudo ufw enable
+sudo ufw deny 20
+sudo ufw deny 21
+sudo ufw deny 22
+sudo ufw deny 80
+sudo ufw default deny incoming
+sudo sed -i '/ignore_all/ s/0/1/' /etc/ufw/sysctl.conf
+
+
 echo "===SETTING YAY==="
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
 
-
-echo "===DOWNLOADING YAY PACKAGES==="
-yay -S librewolf-bin
-yay -S vscodium-bin
-yay -S prismlauncher-git
+if [ $(command -v 'yay') ]; then
+	echo "===DOWNLOADING YAY PACKAGES==="
+	yay -S librewolf-bin
+	yay -S vscodium-bin
+	yay -S prismlauncher
+fi
 
 
 echo "===SETTING MIME==="
@@ -66,7 +93,15 @@ xdg-mime default org.gnome.gedit.desktop application/x-zerosize
 
 xdg-mime default org.gnome.Evince.desktop application/pdf
 
-xdg-mime default nemo.desktop inode/directory
+xdg-mime default org.gnome.Nautilus.desktop inode/directory
+
+
+echo "===INSTALLING NODEJS==="
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.nvm/nvm.sh
+
+NODELTS=$(nvm ls-remote | grep Latest | tail -1 | awk '{print $1}')
+nvm install $NODELTS
 
 
 echo "===INSTALLING OH-MY-ZSH==="
@@ -111,7 +146,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 vim -c 'PlugInstall'
 
 
-echo "===SETTING THEMES==="
+echo "===SETTING GNOME==="
 [ ! -d ~/.icons ] && mkdir ~/.icons
 [ ! -d ~/.fonts ] && mkdir ~/.fonts
 mkdir -p ~/.themes/CustomShell
@@ -138,9 +173,6 @@ gsettings set org.gnome.desktop.interface icon-theme 'reversal-icons'
 gsettings set org.gnome.desktop.interface font-name 'Cascadia Code 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Cascadia Mono 11'
 
-gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com']"
-gsettings set org.gnome.shell.extensions.user-theme name 'CustomShell'
-
 CUSTOM0="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
 gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['$CUSTOM0']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:$CUSTOM0 name 'terminal'
@@ -164,53 +196,75 @@ gsettings set org.gnome.desktop.background show-desktop-icons true
 gsettings set org.gnome.desktop.background picture-uri-dark file://$HOME/Pictures/wallpapers/arch_logo.jpeg
 
 
-echo "===ENABLING SERVICES==="
-sudo systemctl enable gdm
-sudo systemctl enable ufw
-sudo systemctl enable dnsmasq
-sudo systemctl enable syslog-ng@default.service
-sudo systemctl enable libvirtd
-sudo systemctl enable virtlogd
+echo "===GNOME EXTENSIONS==="
+gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'dash-to-dock@micxgx.gmail.com']"
 
-sudo systemctl disable logrotate.timer
-sudo systemctl disable cronie
-sudo systemctl disable httpd
-sudo systemctl disable systemd-resolved
+# dash-to-dock
+git clone https://github.com/micheleg/dash-to-dock
 
+cd dash-to-dock
+make && make install
+cd ..
 
-echo "===SETTING FIREWALL==="
-sudo ufw enable
-sudo ufw deny 20
-sudo ufw deny 21
-sudo ufw deny 22
-sudo ufw deny 80
-sudo ufw default deny incoming
+rm -rf dash-to-dock
+
+# user-theme
+gsettings set org.gnome.shell.extensions.user-theme name 'CustomShell'
 
 
 echo "===OTHER CONFIGURATIONS ==="
-echo "=libvirt="
-sudo usermod -aG libvirt $USER
-sudo sed -i '/unix_sock_group/ s/#//' /etc/libvirt/libvirtd.conf
-sudo sed -i '/unix_sock_ro_perms/ s/#//' /etc/libvirt/libvirtd.conf
-sudo sed -i '/unix_sock_rw_perms/ s/#//' /etc/libvirt/libvirtd.conf
+# VSCODIUM
+if [ $(command -v "codium") ]; then
+	echo "=vscodium="
 
-echo "=steam="
-echo "@nClientDownloadEnableHTTP2PlatformLinux 0
-@fDownloadRateImprovementToAddAnotherConnection 1.0" >> ~/.steam/steam/steam_dev.cfg
+	while read ext; do
+                codium --install-extension $ext
+        done < ~/configs/vscodium/vscextensions.txt
 
-echo "=ssh="
-sudo sed -i '/#PermitRoot/c PermitRootLogin\ no' /etc/ssh/sshd_config
-sudo sed -i '/#PasswordAuth/ {s/#//; s/yes/no/}' /etc/ssh/sshd_config
-ssh-keygen -t rsa -b 4096
+	cp ~/configs/vscodium/keybindings.json ~/configs/vscodium/settings.json ~/.config/VSCodium/User
+fi
 
+
+# QEMU
+if [ $(command -v "libvirtd") ]; then
+	echo "=libvirt="
+	
+	sudo usermod -aG libvirt $USER
+	sudo sed -Ei '/#unix_sock_(group|ro_perms|rw_perms) =/ s/#//' /etc/libvirt/libvirtd.conf
+fi
+
+
+# STEAM
+if [ $(command -v "steam") ]; then
+	echo "=steam="
+
+	$(which steam) &> /dev/null
+
+	echo "@nClientDownloadEnableHTTP2PlatformLinux 0
+	@fDownloadRateImprovementToAddAnotherConnection 1.0" >> ~/.steam/steam/steam_dev.cfg
+fi
+
+
+# SSH
+if [ $(command -v ssh) ]; then
+	echo "=ssh="
+	sudo sed -Ei '/#(PermitRoot|PasswordAuth)/ {s/#//; s/yes/no}' /etc/ssh/sshd_config
+	ssh-keygen -t rsa -b 4096
+fi
+
+
+# HOSTS
 echo "=hosts="
 sudo sh -c 'echo "127.0.0.1 localhost" >> /etc/hosts'
 sudo sed -i '/#DNSStubListener=/ {s/#//; s/yes/no/}' /etc/systemd/resolved.conf
 
+
+# GRUB
 echo "=grub="
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 
+# ZSH
 echo "===SETTING ZSH SHELL==="
 chsh -s $(which zsh)
 

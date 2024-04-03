@@ -1,40 +1,48 @@
-/* Root */
-stage {
-	
-}
+/* GNOME 46+ */
 
 /* Running application dot */
-.app-well-app-running-dot {
+.app-grid-running-dot {
 	background-color: #fa9a12;
 	border-radius: 0;
 	width: 10px;
 	height: 3px;
 }
 
+/* Hovered running application dot */
+#dash .overview-tile:hover .app-grid-running-dot {
+	width: 15px;
+}
+
 /* Focused running application dot */
-StWidget.focused .app-well-app-running-dot {
+#dashtodockContainer .overview-tile.focused .app-grid-running-dot {
 	width: 20px;
 }
 
-/* App icon */
-.app-well-app .overview-icon {
-	border-radius: 10px;
+/* Dock hover/active app border radius */
+#dash .dash-item-container .overview-tile .overview-icon,
+.overview-tile { 
+	border-radius: 5px;
 }
 
 /* Top right menu buttons */
 .button {
 	background: #1e93d1;
-	border-radius: 0;
+	border-radius: 10px;
 	padding: .4em 1.25em;
 }
 .button:hover {
 	background: #277bb8;
 }
 
+/* Buttons with arrow menu */
+.quick-menu-toggle .quick-toggle:ltr {
+	border-radius: 10px 0 0 10px;
+}
+
 /* Top right menu button arrow */
 .quick-menu-toggle .quick-toggle-arrow {
 	background: #1e93d1;
-	border-radius: 0 .25em .25em 0;
+	border-radius: 0 10px 10px 0;
 }
 
 /* Toggled button */
@@ -46,4 +54,7 @@ StWidget.focused .app-well-app-running-dot {
 .slider {
 	-barlevel-background-color: #825317;
 	-barlevel-active-background-color: #fa9a12;
+	-barlevel-height: 10px;
+	-slider-handle-radius: 12px;
 }
+

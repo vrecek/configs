@@ -26,6 +26,7 @@ map <A-Right> :tabn<CR>
 
 autocmd VimEnter * NERDTree
 autocmd Filetype html inoremap < <><left>
+autocmd Filetype css inoremap /* /**/<left><left>
 
 inoremap " ""<left>
 inoremap ' ''<left>
