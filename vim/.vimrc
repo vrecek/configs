@@ -4,6 +4,7 @@ call plug#begin()
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'davidhalter/jedi-vim'
+Plug 'chrisbra/Colorizer'
 call plug#end()
 
 set number
@@ -24,6 +25,7 @@ map <A-Down> :tabclose<CR>
 map <A-Left> :tabp<CR>
 map <A-Right> :tabn<CR>
 
+autocmd VimEnter * ColorHighlight
 autocmd VimEnter * NERDTree
 autocmd Filetype html inoremap < <><left>
 autocmd Filetype css inoremap /* /**/<left><left>

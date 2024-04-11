@@ -7,6 +7,7 @@ plugins=(zsh-autosuggestions zsh-syntax-highlighting)
 zstyle ':omz:update' mode reminder
 zstyle ':omz:update' frequency 7
 
+source $ZSH/oh-my-zsh.sh
 #=========== OPTS ============#
 setopt notify 
 setopt nomatch 
@@ -19,13 +20,13 @@ unsetopt autocd
 
 #====== MY VARS =======#
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=5000
+HISTSIZE=10000
 SAVEHIST=$HISTSIZE
 HIST_STAMPS="yyyy-mm-dd"
 ENABLE_CORRECTION="true"
 CASE_SENSITIVE="false"
 
-PS1=$'┌─[%B%F{#ff8000}%T%f%b]%B%F{#33ff33}%n💀%m%f%b[%B%F{#3399ff}%~%f%b]\n└─➤ '
+PS1=$'┌─[%B%F{#ff8000}%T%f%b]%B%F{#33ff33}%n🐧%m%f%b[%B%F{#3399ff}%~%f%b]\n└─➤ '
 #======================#
 
 #===== MY ALIASES =====#
@@ -75,4 +76,3 @@ bindkey \^U backward-kill-line
 source ~/.zshfn
 #======================#
 
-source $ZSH/oh-my-zsh.sh
