@@ -12,7 +12,7 @@ A_PACK=(
 	# SYSTEM
 	linux-lts linux-lts-headers gdm gnome-shell
 	# GUI APPS
-	kitty keepassxc qbittorrent
+	kitty keepassxc qbittorrent pinta
 	# FILESYSTEMS
 	ntfs-3g exfatprogs dosfstools
 	# SOUND
