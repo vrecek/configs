@@ -13,14 +13,15 @@ setopt notify
 setopt nomatch 
 setopt extendedglob
 setopt hist_ignore_dups
+setopt extendedhistory
 setopt beep
 
 unsetopt autocd
 #=============================#
 
 #====== MY VARS =======#
-HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000
+HISTFILE="$HOME/.cache/zsh/.zsh_history"
+HISTSIZE=20000
 SAVEHIST=$HISTSIZE
 HIST_STAMPS="yyyy-mm-dd"
 ENABLE_CORRECTION="true"
@@ -30,8 +31,8 @@ PS1=$'┌─[%B%F{#ff8000}%T%f%b]%B%F{#33ff33}%n🐧%m%f%b[%B%F{#3399ff}%~%f%b]\
 #======================#
 
 #===== MY ALIASES =====#
-alias neofetch='neofetch --config ~/.config/neofetch/config.default'
-alias neofetch-def='neofetch --config ~/.config/neofetch/config.conf'
+alias neofetch='fastfetch -c ~/.config/fastfetch/config_main.jsonc'
+alias neofetch-def='fastfetch'
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -43,6 +44,7 @@ alias sctl='sudo systemctl'
 alias da='sudo'
 
 alias zrc='vim ~/.zshrc'
+alias vrc='vim ~/.vimrc'
 
 alias fw='sudo ufw'
 alias fwlist='fw status numbered'
@@ -55,6 +57,7 @@ alias myip='curl ipinfo.io/ip'
 alias wl-copy='wl-copy --paste-once --trim-newline'
 alias gget='gsettings get'
 alias gset='gsettings set'
+alias hist='history -i'
 #======================#
 
 #===== MY EXPORTS =====#

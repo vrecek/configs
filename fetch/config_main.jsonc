@@ -1,0 +1,130 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+
+    "general": {
+        "multithreading": true
+    },
+
+    "logo": {
+        "source": "~/Pictures/logos/fetch_png.png",
+        "preserveAspectRatio": true,
+        "width": 45,
+        "padding": { "top": 3, "right": 0 },
+        "type": "kitty"
+    },
+
+    "display": {
+        "separator": "  >>  ",
+        "color": "cyan"
+    },
+
+    "modules": [
+        "break",
+        "break",
+
+        "title",
+
+        {
+            "type": "custom",
+            "format": "\u001b[38;2;255;255;255m┌──────────────=SOFTWARE=──────────────┐"
+        },
+
+        {
+            "type": "os",
+            "format": "\u001b[38;2;255;255;255m{2}",
+            "key": "OS "
+        },
+
+        {
+            "type": "de",
+            "format": "\u001b[38;2;255;255;255m{2} {3}",
+            "key": "DE "
+        },
+
+        {
+            "type": "kernel",
+            "format": "\u001b[38;2;255;255;255m{1} {2}",
+            "key": "🐧 "
+        },
+
+        {
+            "type": "shell",
+            "format": "\u001b[38;2;255;255;255m{2}",
+            "key": "🐚 "
+        },
+
+        {
+            "type": "locale",
+            "format": "\u001b[38;2;255;255;255m{1}",
+            "key": "🚩 "
+        },
+
+        {
+            "type": "packages",
+            "format": "\u001b[38;2;255;255;255m{1}",
+            "key": "📦 "
+        },
+
+        {
+            "type": "uptime",
+            "format": "\u001b[38;2;255;255;255m{2} hours, {3} min",
+            "key": "🕒 "
+        },
+
+        {
+            "type": "custom",
+            "format": "\u001b[38;2;255;255;255m└──────────────────────────────────────┘"
+        },
+
+        {
+            "type": "custom",
+            "format": "\u001b[38;2;255;255;255m┌──────────────=HARDWARE=──────────────┐"
+        },
+
+        {
+            "type": "host",
+            "format": "\u001b[38;2;255;255;255m{3}",
+            "key": "💻 "
+        },
+
+        {
+            "type": "display",
+            "format": "\u001b[38;2;255;255;255m{1}x{2}",
+            "key": "📺 "
+        },
+
+        {
+            "type": "cpu",
+            "temp": true,
+            "format": "\u001b[38;2;255;255;255m{1} @ {7}GHz ({8})",
+            "freqNdigits": 1,
+            "key": "CPU"
+        },
+
+        {
+            "type": "gpu",
+            "format": "\u001b[38;2;255;255;255m{2}",
+            "key": "GPU"
+        },
+
+        {
+            "type": "memory",
+            "format": "\u001b[38;2;255;255;255m{1} / {2} ({3})",
+            "key": "MEM"
+        },
+
+        {
+            "type": "custom",
+            "format": "\u001b[38;2;255;255;255m└──────────────────────────────────────┘"
+        },
+
+        "break",
+
+        {
+            "type": "colors",
+            "symbol": "circle"
+        },
+
+        "break"
+    ]
+}

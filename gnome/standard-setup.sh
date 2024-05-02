@@ -4,7 +4,7 @@ sudo sed -i '/#Parallel/ {s/#//; s/5/3/}' /etc/pacman.conf
 sudo sed -i '/#\[multilib\]/ {s/#//; n; s/#//}' /etc/pacman.conf
 sudo sed -i 's/#Color/Color/' /etc/pacman.conf
 
-sudo pacman -Syu
+sudo pacman -Syyu
 
 
 echo "===DOWNLOADING PACKAGES==="
@@ -18,7 +18,7 @@ A_PACK=(
 	# SOUND
 	pipewire pipewire-alsa pipewire-pulse wireplumber pulsemixer
 	# FONTS
-	noto-fonts noto-fonts-cjk noto-fonts-emoji
+	noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra
 	# APP OPENERS
 	vlc nautilus evince nsxiv libreoffice-still gnome-font-viewer gedit
 	# QEMU
@@ -28,7 +28,7 @@ A_PACK=(
 	# GAMES
 	steam discord
 	# BLUETOOTH
-	bluez bluez-utils
+	bluez bluez-utils blueman bluez-obex
 	# DOCKER
 	docker docker-buildx
 	# GNOME UTILS
@@ -36,13 +36,13 @@ A_PACK=(
 	# XDG UTILS
 	xdg-desktop-portal-gnome xdg-user-dirs
 	# CLI UTILS
-	wget curl neofetch man plocate inkscape imagemagick python-pip lftp wl-clipboard openssh tree openbsd-netcat 
+	wget curl fastfetch man plocate inkscape imagemagick python-pip lftp wl-clipboard tree openbsd-netcat 
 	# DIAGNOSTIC
 	lshw lsof dmidecode nmap iw smartmontools wireshark-qt
 	# ZSH
 	zsh zsh-completions
 	# OTHER
-	jdk-openjdk dnsmasq ufw tk apache syslog-ng logrotate cronie mesa-utils mesa-demos pacman-contrib openvpn power-profiles-daemon git sassc gst-plugin-pipewire
+	jdk-openjdk dnsmasq ufw tk nginx-mainline syslog-ng logrotate cronie mesa-utils mesa-demos pacman-contrib openvpn power-profiles-daemon git sassc gst-plugin-pipewire
 )
 
 sudo pacman -S ${A_PACK[@]}
@@ -59,8 +59,8 @@ sudo systemctl enable libvirtd
 sudo systemctl enable virtlogd
 
 sudo systemctl disable cronie
-sudo systemctl disable httpd
 sudo systemctl disable sshd
+sudo systemctl disable nginx
 sudo systemctl disable systemd-resolved
 
 
@@ -85,6 +85,9 @@ if [ $(command -v 'yay') ]; then
 	yay -S librewolf-bin
 	yay -S vscodium-bin
 	yay -S prismlauncher
+	yay -S mongodb-bin
+
+	sudo systemctl disable mongodb
 fi
 
 
@@ -131,14 +134,15 @@ mkdir ~/Pictures/ascii ~/Pictures/logos ~/Pictures/wallpapers ~/Music/sounds
 cp ~/configs/vim/.vimrc ~/
 cp ~/configs/zsh/.* ~/
 
-cp ~/configs/neofetch/config.default ~/configs/neofetch/config.conf ~/.config/neofetch
-cp ~/configs/neofetch/neofetch_ascii.txt ~/Pictures/ascii/
-cp ~/configs/neofetch/neofetch_png.png ~/Pictures/logos/
+# cp ~/configs/fetch/config.default ~/.config/neofetch
+cp ~/configs/fetch/arch_ascii.txt ~/Pictures/ascii/
+cp ~/configs/fetch/fetch_png.png ~/Pictures/logos/
+cp ~/configs/fetch/config_main.jsonc ~/.config/fastfetch
 
 cp ~/configs/kitty/kitty.conf ~/.config/kitty/
 cp ~/configs/kitty/window_logo_path.png ~/Pictures/logos/tux.png
 cp ~/configs/kitty/background_image.png ~/Pictures/wallpapers/parrot_right.png
-cp ~/configs/kitty/bell_bong.wav ~/Music/sounds/
+cp ~/configs/kitty/bonk.wav ~/Music/sounds/
 
 sudo cp ~/configs/sysctl/99-settings.conf /etc/sysctl.d/
 
@@ -264,7 +268,7 @@ fi
 
 # HOSTS
 echo "=hosts="
-sudo sh -c 'echo "127.0.0.1 localhost" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 localhost\n::1 localhost" >> /etc/hosts'
 sudo sed -i '/#DNSStubListener=/ {s/#//; s/yes/no/}' /etc/systemd/resolved.conf
 
 
