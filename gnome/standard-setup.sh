@@ -12,7 +12,7 @@ A_PACK=(
 	# SYSTEM
 	linux-lts linux-lts-headers gdm gnome-shell
 	# GUI APPS
-	kitty keepassxc qbittorrent pinta
+	kitty keepassxc qbittorrent pinta openrgb
 	# FILESYSTEMS
 	ntfs-3g exfatprogs dosfstools
 	# SOUND
@@ -24,7 +24,7 @@ A_PACK=(
 	# QEMU
 	virt-manager qemu-full vde2 bridge-utils virt-viewer
 	# COMPRESSION
-	p7zip zip
+	p7zip zip unrar
 	# GAMES
 	steam discord
 	# BLUETOOTH
@@ -36,13 +36,15 @@ A_PACK=(
 	# XDG UTILS
 	xdg-desktop-portal-gnome xdg-user-dirs
 	# CLI UTILS
-	wget curl fastfetch man plocate inkscape imagemagick python-pip lftp wl-clipboard tree openbsd-netcat 
+	wget curl fastfetch man plocate inkscape imagemagick python-pip lftp wl-clipboard tree openbsd-netcat ranger jq
 	# DIAGNOSTIC
 	lshw lsof dmidecode nmap iw smartmontools wireshark-qt
 	# ZSH
 	zsh zsh-completions
+	# MTP
+	mtpfs gvfs-gphoto2 gvfs-mtp
 	# OTHER
-	jdk-openjdk dnsmasq ufw tk nginx-mainline syslog-ng logrotate cronie mesa-utils mesa-demos pacman-contrib openvpn power-profiles-daemon git sassc gst-plugin-pipewire
+	jdk-openjdk dnsmasq ufw tk nginx-mainline syslog-ng logrotate cronie mesa-utils mesa-demos pacman-contrib openvpn power-profiles-daemon git sassc gst-plugin-pipewire qt5-wayland qt6-wayland
 )
 
 sudo pacman -S ${A_PACK[@]}
@@ -128,13 +130,12 @@ ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=#FCB13C" >> ~/.oh-my-zsh/custom/
 
 echo "===MOVING CONFIG FILES==="
 mkdir ~/Pictures/ascii ~/Pictures/logos ~/Pictures/wallpapers ~/Music/sounds
-[ ! -d ~/.config/neofetch ] && mkdir ~/.config/neofetch
+[ ! -d ~/.config/fastfetch ] && mkdir ~/.config/fastfetch
 [ ! -d ~/.config/kitty ] && mkdir ~/.config/kitty
 
 cp ~/configs/vim/.vimrc ~/
 cp ~/configs/zsh/.* ~/
 
-# cp ~/configs/fetch/config.default ~/.config/neofetch
 cp ~/configs/fetch/arch_ascii.txt ~/Pictures/ascii/
 cp ~/configs/fetch/fetch_png.png ~/Pictures/logos/
 cp ~/configs/fetch/config_main.jsonc ~/.config/fastfetch
@@ -161,7 +162,7 @@ tar xf ~/configs/gnome/themes/icons/colloid-cursor.tar.gz -C ~/.icons
 tar xf ~/configs/gnome/themes/icons/reversal-icons.tar.gz -C ~/.icons
 
 cp ~/configs/gnome/themes/fonts/* ~/.fonts
-cp ~/configs/gnome/themes/arch_logo.jpeg ~/Pictures/wallpapers
+cp ~/configs/gnome/themes/moon.jpg ~/Pictures/wallpapers
 
 cp -r ~/configs/gnome/themes/gnome-shell ~/.themes/CustomShell
 
@@ -176,7 +177,7 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
 gsettings set org.gnome.desktop.interface cursor-theme 'colloid-cursor'
 gsettings set org.gnome.desktop.interface icon-theme 'reversal-icons'
-gsettings set org.gnome.desktop.interface font-name 'Cascadia Code 11'
+gsettings set org.gnome.desktop.interface font-name 'Noto Sans 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Cascadia Mono 11'
 
 CUSTOM0="/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
@@ -194,13 +195,14 @@ gsettings set org.gnome.desktop.wm.keybindings show-desktop "['<Ctrl><Alt>d']"
 gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Alt>tab']"
 gsettings set org.gnome.desktop.wm.keybindings close "['<Control>BackSpace']"
 gsettings set org.gnome.desktop.wm.keybindings begin-move "['<Control>Down']"
+gsettings set org.gnome.desktop.wm.keybindings begin-resize "['<Control>Up']"
 
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'pl')]"
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us')]"
 
 gsettings set org.gnome.desktop.interface clock-format '24h'
 
 gsettings set org.gnome.desktop.background show-desktop-icons true
-gsettings set org.gnome.desktop.background picture-uri-dark file://$HOME/Pictures/wallpapers/arch_logo.jpeg
+gsettings set org.gnome.desktop.background picture-uri-dark file://$HOME/Pictures/wallpapers/moon.jpg
 
 
 echo "===GNOME EXTENSIONS==="
@@ -268,7 +270,7 @@ fi
 
 # HOSTS
 echo "=hosts="
-sudo sh -c 'echo "127.0.0.1 localhost\n::1 localhost" >> /etc/hosts'
+sudo sh -c 'echo "127.0.0.1 localhost $HOST\n::1 localhost $HOST" >> /etc/hosts'
 sudo sed -i '/#DNSStubListener=/ {s/#//; s/yes/no/}' /etc/systemd/resolved.conf
 
 

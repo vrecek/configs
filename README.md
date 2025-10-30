@@ -1,7 +1,8 @@
 ### Config files for the:
 - kitty terminal<br>
-- neofetch<br>
+- neofetch/fastfetch<br>
 - zsh<br>
+- vscodium<br>
 - vim<br>
 - sysctl params
 

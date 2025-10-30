@@ -5,25 +5,34 @@
 
 // # # # # # # # # # # # # # # # # # # # COLORS # # # # # # # # # # # # # # # # # # # # #
 
-$clr-blackd: rgb(45, 45, 45);
+$clr-blacklr: rgb(85, 85, 85);
 $clr-blackl: rgb(60, 60, 60);
+$clr-blackd: rgb(45, 45, 45);
+$clr-blackdr: rgb(30, 30, 30);
 
-$clr-whitel: rgb(245, 245, 245);
 $clr-whitelr: rgb(250, 250, 250);
+$clr-whitel: rgb(240, 240, 240);
 $clr-whited: rgb(225, 225, 225); 
+$clr-whitedr: rgb(210, 210, 210); 
 
-$clr-greyl: rgb(215, 215, 215);
-$clr-greyd: rgb(180, 180, 180);
-$clr-greydr: rgb(90, 90, 90);
+$clr-greylr: rgb(195, 195, 195);
+$clr-greyl: rgb(180, 180, 180);
+$clr-greyd: rgb(150, 150, 150);
+$clr-greydr: rgb(110, 110, 110);
 
-$clr-greenl: rgb(4, 170, 109);
 $clr-greenlr: rgb(13, 217, 71);
-$clr-greend: rgb(21, 160, 67);
+$clr-greenl: rgb(19, 176, 29);
+$clr-greend: rgb(25, 156, 69);
 
+$clr-bluelr:rgb(160, 214, 255);
 $clr-bluel: rgb(109, 160, 255);
 $clr-blued: rgb(49, 85, 190);
+$clr-bluedr:rgb(45, 70, 143);
 
-$clr-purple: rgb(159, 51, 213);
+$clr-purplelr: rgb(146, 54, 193);
+$clr-purplel: rgb(119, 44, 157);
+$clr-purpled: rgb(100, 38, 131);
+$clr-purpledr: rgb(79, 27, 105);
 
 $clr-red: rgb(199, 11, 11);
 
@@ -37,7 +46,7 @@ $clr-oranged: rgb(230, 72, 15);
 
 // # # # # # # # # # # # # # # # LOCAL PROJECT VARIABLES # # # # # # # # # # # # # # # # #
 
-
+$nav-height: 60px;
 
 // # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -46,6 +55,22 @@ $clr-oranged: rgb(230, 72, 15);
 
 
 // # # # # # # # # # # # # # # # # # MIXINS # # # # # # # # # # # # # # # # # # # # # # # 
+
+// Darkens the element on hover
+@mixin HoverBG($transition: 250ms, $bg: auto, $color: auto) {
+   transition: $transition;
+   cursor: pointer;
+   
+   &:hover {
+      @if $bg != auto or $color != auto {
+         color: $color;
+         background: $bg;
+      }
+      @else {
+         filter: brightness(85%);
+      }
+   }
+}
 
 // Sets both width and height to $size
 @mixin FullSize($size: 100%) {
@@ -59,6 +84,7 @@ $clr-oranged: rgb(230, 72, 15);
    min-width: #{$minPX}px;
    max-width: #{$max};
 }
+
 // Resets the min/max width properties. Use with SetWidth
 @mixin ResetWidth {
    min-width: auto;
